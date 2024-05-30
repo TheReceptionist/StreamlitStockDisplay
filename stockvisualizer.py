@@ -11,6 +11,7 @@ def getTickerInfo(ticker, timeframe):
     return data
 
 # function to get the dataframe of stock prices from the list of tickers and chosen timeframe
+@st.cache_data
 def tickerListToDataFrame(tickers, timeframe):
     if not tickers:
         st.error("No tickers provided")
@@ -24,7 +25,6 @@ def tickerListToDataFrame(tickers, timeframe):
         except KeyError as e:
             st.error('Invalid ticker')
             st.stop()
-        #  print(f'getting data for the {global_var}\'th time')
         #  if not isinstance(data, pd.DataFrame):
         try:
             data = data.get('Open').to_frame()
@@ -59,7 +59,7 @@ inserttab, selecttab, managetab = c.tabs(["Add portfolios", "Display Portfolios"
 with inserttab:
     #form to enter portfolio info
     form = st.form("my_form", border=False)
-    form.subheader("Enter stocks to add to your portfolio")
+    form.subheader("Enter your portfolio")
     portname = form.text_input("Enter your portfolio name:")
     tickstr = form.text_input("Enter a comma-separated list of tickers:")
     # convert the string into a list of tickers
